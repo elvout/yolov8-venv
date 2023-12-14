@@ -14,7 +14,7 @@ jobs:
           path: "src/${{ github.repository_id }}"
       - name: Inspect directory contents
         run: apt-get update && apt-get install --yes tree && pwd && tree
-      # - name: Install build dependencies
-      #   run: apt-get update && apt-get install --yes python3-catkin-tools python3-pip
-      # - name: Run catkin build
-      #   run: catkin build
+      - name: Install build dependencies
+        run: apt-get update && apt-get install --yes python3-catkin-tools python3-pip
+      - name: Run catkin build
+        run: catkin build
