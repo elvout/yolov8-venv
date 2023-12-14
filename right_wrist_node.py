@@ -179,6 +179,7 @@ if __name__ == "__main__":
 
     logger.success("node initialized")
 
+    # TODO(elvout): switch to ros service
     while not rospy.is_shutdown():
         node.run_inference_and_publish_pose()
         rospy.sleep(0.05)

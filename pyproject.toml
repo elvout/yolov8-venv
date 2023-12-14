@@ -6,28 +6,16 @@ authors = ["Elvin Yang <eyy@umich.edu>"]
 readme = "README.md"
 
 [[tool.poetry.source]]
-name = "PyPI"
-priority = "primary"
-
-[[tool.poetry.source]]
-name = "PyTorch CPU"
-url = "https://download.pytorch.org/whl/cpu"
-priority = "supplemental"
-
-[[tool.poetry.source]]
-name = "PyTorch CUDA 11.8"
-url = "https://download.pytorch.org/whl/cu118"
+name = "pytorch"
+url = "https://download.pytorch.org/whl"
 priority = "supplemental"
 
 [tool.poetry.dependencies]
 # rospy.init_node hangs on python>=3.11
 python = "~3.10"
-# torch = {version = "*", source = "PyTorch CPU"}
-# torchaudio = {version = "*", source = "PyTorch CPU"}
-# torchvision = {version = "*", source = "PyTorch CPU"}
-torch = {version = "*", source = "PyTorch CUDA 11.8"}
-torchaudio = {version = "*", source = "PyTorch CUDA 11.8"}
-torchvision = {version = "*", source = "PyTorch CUDA 11.8"}
+torch = {version = "2.1.1+cu118", source = "pytorch"}
+torchaudio = {version = "2.1.1+cu118", source = "pytorch"}
+torchvision = {version = "0.16.1+cu118", source = "pytorch"}
 matplotlib = "^3.8.0"
 loguru = "^0.7.2"
 numpy = "^1.26.1"
