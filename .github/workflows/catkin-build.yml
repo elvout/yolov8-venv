@@ -10,7 +10,8 @@ jobs:
 
     steps:
       - uses: actions/checkout@v4
-        path: "src/"
+        with:
+          path: "src/"
       - name: Install build dependencies
         run: apt-get update && apt-get install --yes python3-catkin-tools python3-pip
       - name: Run catkin build
