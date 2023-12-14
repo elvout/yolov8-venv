@@ -1,0 +1,16 @@
+name: catkin build CI
+
+on: push
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    container:
+      image: osrf/ros:noetic-desktop-full
+
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install build dependencies
+        run: apt update && apt install --yes python3-catkin-tools python3-pip
+      - name: Run catkin build
+        run: catkin build
