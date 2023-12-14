@@ -11,9 +11,9 @@ jobs:
     steps:
       - uses: actions/checkout@v4
         with:
-          path: "src/"
+          path: "src/${GITHUB_REPOSITORY_ID}"
       - name: Inspect directory contents
-        run: apt-get update && apt-get install --yes tree && tree
+        run: apt-get update && apt-get install --yes tree && pwd && tree
       # - name: Install build dependencies
       #   run: apt-get update && apt-get install --yes python3-catkin-tools python3-pip
       # - name: Run catkin build
