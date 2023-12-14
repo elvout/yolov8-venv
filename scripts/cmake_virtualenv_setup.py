@@ -41,7 +41,7 @@ def poetry_install_venv() -> None:
     ensure_poetry()
 
     completed_process = subprocess.run(
-        ["poetry", "install", "--no-root", "--quiet", "--no-interaction"]
+        ["poetry", "install", "--no-root", "--no-interaction"]
     )
 
     if completed_process.returncode != 0:
