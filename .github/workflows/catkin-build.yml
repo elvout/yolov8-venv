@@ -11,7 +11,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
         with:
-          path: "src/${GITHUB_REPOSITORY_ID}"
+          path: "src/${{ github.repository_id }}"
       - name: Inspect directory contents
         run: apt-get update && apt-get install --yes tree && pwd && tree
       # - name: Install build dependencies
