@@ -18,7 +18,7 @@ jobs:
         with:
           python-version: "3.10"
       - name: Install build dependencies
-        run: apt-get update && apt-get install --yes python3-catkin-tools
+        run: apt-get update && apt-get install --yes python3-catkin-tools && pip install empy
       - name: Run catkin build
         run: . /opt/ros/noetic/setup.sh && catkin build --no-status
       - name: Run yolo checks
