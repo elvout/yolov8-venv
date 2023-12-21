@@ -14,8 +14,11 @@ jobs:
           path: "src/${{ github.repository_id }}"
       - name: Inspect directory contents
         run: apt-get update && apt-get install --yes tree && pwd && tree
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.10"
       - name: Install build dependencies
-        run: apt-get update && apt-get install --yes python3-catkin-tools python3-pip
+        run: apt-get update && apt-get install --yes python3-catkin-tools
       - name: Run catkin build
         run: . /opt/ros/noetic/setup.sh && catkin build --no-status
       - name: Run yolo checks

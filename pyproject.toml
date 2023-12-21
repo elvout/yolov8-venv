@@ -12,7 +12,7 @@ priority = "supplemental"
 
 [tool.poetry.dependencies]
 # rospy.init_node hangs on python>=3.11
-python = ">=3.8.10,<3.11"
+python = "~3.10"
 torch = {version = "2.1.1+cu118", source = "pytorch"}
 torchaudio = {version = "2.1.1+cu118", source = "pytorch"}
 torchvision = {version = "0.16.1+cu118", source = "pytorch"}
