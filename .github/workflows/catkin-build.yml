@@ -4,7 +4,10 @@ on: push
 
 jobs:
   build:
-    runs-on: ubuntu-latest
+    # Although the build is run inside a 20.04 container, we need to explicitly
+    # specify 20.04 here so actions/setup-python installs the right Python 3.10
+    # binary.
+    runs-on: ubuntu-20.04
     container:
       image: osrf/ros:noetic-desktop-full
 
