@@ -24,6 +24,10 @@ def assert_pip_installed() -> None:
 def ensure_poetry() -> None:
     assert_pip_installed()
 
+    # Manually append ~/.local/bin to PATH within this script's environment
+    # since we may be running in an old shell unaffected by `pipx ensurepath`.
+    os.environ["PATH"] = f"{os.environ['PATH']}:{Path.home()}/.local/bin".strip(":")
+
     if shutil.which("poetry") is not None:
         return
 
@@ -35,10 +39,6 @@ def ensure_poetry() -> None:
         )
         subprocess.run(["python3", "-m", "pipx", "ensurepath"], check=True)
         subprocess.run(["python3", "-m", "pipx", "install", "poetry"], check=True)
-
-        # Manually append ~/.local/bin to PATH within this script's environment
-        # since `pipx ensurepath` won't take effect until a new shell is opened.
-        os.environ["PATH"] = f"{os.environ['PATH']}:{Path.home()}/.local/bin"
     except subprocess.CalledProcessError as err:
         print(f"[FATAL]: Failed to execute '{err.cmd}'")
         sys.exit(err.returncode)
