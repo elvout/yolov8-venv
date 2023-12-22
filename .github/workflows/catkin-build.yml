@@ -27,5 +27,7 @@ jobs:
       - name: Run catkin build
         run: . /opt/ros/noetic/setup.sh && catkin build --no-status
       - name: Run yolo checks
-        run: .venv/bin/yolo check
+        run: |
+          .venv/bin/yolo check | tee check.log
+          ! grep -q "❌" check.log
         working-directory: "${{ github.workspace }}/src/${{ github.repository_id }}"
