@@ -1,18 +1,19 @@
 #! /usr/bin/env python3
 
 """
-Although this repository uses Poetry / PEP 517 to specify and install
-dependencies, catkin only supports the old setup.py way of doing things. We'll
-call this script from CMakeLists.txt as a proxy for Poetry.
+This repository uses Poetry / PEP 517 to specify and install dependencies, which
+is not natively supported by catkin. We'll call this script from CMakeLists.txt
+as a proxy for Poetry.
 """
 
+import os
 import shutil
 import subprocess
 import sys
 from pathlib import Path
 
 
-def check_pip_installed() -> None:
+def assert_pip_installed() -> None:
     try:
         import pip  # noqa: F401
     except ModuleNotFoundError:
@@ -21,36 +22,47 @@ def check_pip_installed() -> None:
 
 
 def ensure_poetry() -> None:
-    check_pip_installed()
+    assert_pip_installed()
 
     if shutil.which("poetry") is not None:
         return
 
-    completed_process = subprocess.run(["python3", "-m", "pip", "install", "poetry"])
+    # This is one set of the recommended installation instructions for poetry on
+    # Ubuntu 20.04 as of Dec 2023.
+    try:
+        subprocess.run(
+            ["python3", "-m", "pip", "install", "--user", "pipx"], check=True
+        )
+        subprocess.run(["python3", "-m", "pipx", "ensurepath"], check=True)
+        subprocess.run(["python3", "-m", "pipx", "install", "poetry"], check=True)
 
-    if completed_process.returncode != 0:
-        print("[FATAL] Failed to install poetry via pip.", file=sys.stderr)
-        sys.exit(completed_process.returncode)
+        # Manually append ~/.local/bin to PATH within this script's environment
+        # since `pipx ensurepath` won't take effect until a new shell is opened.
+        os.environ["PATH"] = f"{os.environ['PATH']}:{Path.home()}/.local/bin"
+    except subprocess.CalledProcessError as err:
+        print(f"[FATAL]: Failed to execute '{err.cmd}'")
+        sys.exit(err.returncode)
 
     if shutil.which("poetry") is None:
-        print("[FATAL] Failed to find poetry after installation.", file=sys.stderr)
+        print(
+            "[FATAL] Failed to find poetry executable after installation.",
+            file=sys.stderr,
+        )
         sys.exit(1)
 
 
-def poetry_install_venv() -> None:
+def poetry_create_venv() -> None:
     ensure_poetry()
 
-    completed_process = subprocess.run(
-        ["poetry", "install", "--no-root", "--quiet", "--no-interaction"]
-    )
-
-    if completed_process.returncode != 0:
-        print("[FATAL] Failed to initialize virtualenv.", file=sys.stderr)
-        sys.exit(completed_process.returncode)
-
-    # Create a dummy file to indicate that the build is completely finished
-    Path(".venv/target").touch()
+    try:
+        subprocess.run(
+            ["poetry", "install", "--no-root", "--no-ansi", "--no-interaction"],
+            check=True,
+        )
+    except subprocess.CalledProcessError as err:
+        print("[FATAL]: Failed to create virtualenv.", file=sys.stderr)
+        sys.exit(err.returncode)
 
 
 if __name__ == "__main__":
-    poetry_install_venv()
+    poetry_create_venv()

@@ -17,13 +17,12 @@ find_package(catkin REQUIRED)
 ## modules and global scripts declared therein get installed
 ## See http://ros.org/doc/api/catkin/html/user_guide/setup_dot_py.html
 # catkin_python_setup()
-add_custom_command(
-    OUTPUT ${CMAKE_SOURCE_DIR}/.venv/target
+add_custom_target(
+    poetry_virtualenv ALL
     COMMAND ${CMAKE_SOURCE_DIR}/scripts/cmake_virtualenv_setup.py
     WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}
     COMMENT "Building ${CMAKE_PROJECT_NAME} virtualenv... may take some time"
 )
-add_custom_target(poetry_virtualenv ALL DEPENDS ${CMAKE_SOURCE_DIR}/.venv/target)
 
 # add_library(foo INTERFACE)
 # add_dependencies(foo poetry_virtualenv)
