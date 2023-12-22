@@ -3,7 +3,6 @@ from typing import Optional
 import cv2
 import numpy as np
 import torch
-from loguru import logger
 from ultralytics import YOLO
 from ultralytics.engine.results import Results
 
@@ -13,10 +12,12 @@ from geometry_msgs.msg import PointStamped
 from sensor_msgs.msg import CameraInfo, CompressedImage, Image
 from visualization_msgs.msg import Marker
 
+from yolov8_ros import logger, get_model_download_dir
+
 
 class YoloSkeletonRightWristNode:
     def __init__(self) -> None:
-        self._model = YOLO("models/yolov8x-pose.pt")
+        self._model = YOLO(get_model_download_dir() / "yolov8x-pose.pt")
 
         #####################
         # ROS-related setup #
@@ -173,7 +174,7 @@ class YoloSkeletonRightWristNode:
         self._debug_img_pub.publish(annotated_debug_img_msg)
 
 
-if __name__ == "__main__":
+def main() -> None:
     rospy.init_node("yolov8_right_wrist")
     node = YoloSkeletonRightWristNode()
 
@@ -183,3 +184,7 @@ if __name__ == "__main__":
     while not rospy.is_shutdown():
         node.run_inference_and_publish_pose()
         rospy.sleep(0.05)
+
+
+if __name__ == "__main__":
+    main()

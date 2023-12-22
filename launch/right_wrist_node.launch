@@ -1,0 +1,15 @@
+<launch>
+
+  <node
+    pkg="yolov8-ros"
+    name="right_wrist_node"
+    launch-prefix="$(find yolov8-ros)/.venv/bin/python"
+    type="python_entrypoint.py"
+    args="right_wrist_node"
+    cwd="node"
+    output="screen"
+  >
+    <!-- <param name="..." value="..." /> -->
+  </node>
+
+</launch>
