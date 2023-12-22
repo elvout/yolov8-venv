@@ -8,7 +8,7 @@ logger.remove(0)
 logger.add(
     sys.stdout,
     colorize=True,
-    format="<green>{time:YYYY-MM-DD HH:mm:ss.SSS}</green> | <b>{level}</b> | <cyan>{file}:{line}</cyan> - {message}",
+    format="<green>{time:YYYY-MM-DD HH:mm:ss.SSS}</green> | <level>{level}</level> | <cyan>{file}:{line}</cyan> - <level>{message}</level>",
 )
 
 
