@@ -2,8 +2,8 @@
 
 """
 This repository uses Poetry / PEP 517 to specify and install dependencies, which
-is not natively supported by catkin. We'll call this script from CMakeLists.txt
-as a proxy for Poetry.
+is not natively supported by catkin. Run this script in CMakeLists.txt to create
+a virtual environment and install Python dependencies.
 """
 
 import os
