@@ -1,5 +1,5 @@
 [tool.poetry]
-name = "yolov8-env"
+name = "yolov8-ros"
 version = "0.1.0"
 description = ""
 authors = ["Elvin Yang <eyy@umich.edu>"]
